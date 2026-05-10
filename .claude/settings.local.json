@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"/Users/yuvraj/Desktop/EduEase - AI/\" && ls \"/Users/yuvraj/Documents/\")",
+      "Bash(ls /tmp/eduease_design/extracted/ui_kits/web_admin/)",
+      "Bash(npm create *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(mkdir -p \"/Users/yuvraj/Desktop/EduEase - AI/web-app/.claude\")",
+      "Bash(mkdir -p \"/Users/yuvraj/Desktop/EduEase - AI/.claude\")",
+      "Bash(find /Users/yuvraj/Desktop/EduEase* -name \"colors_and_type.css\" 2>/dev/null | head -5)",
+      "Bash(cd /tmp && find ui_kits -type f | sort)",
+      "Bash(npx expo *)",
+      "Bash(node -e \"const p=require\\('./node_modules/expo/package.json'\\); console.log\\('Expo installed:', p.version\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/react-native/package.json'\\); console.log\\('RN installed:', p.version\\)\")",
+      "Bash(npm info *)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/expo/expo/sdk-54/packages/expo/package.json\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('React:', d.get\\('peerDependencies',{}\\).get\\('react',''\\)\\); print\\('RN:', d.get\\('peerDependencies',{}\\).get\\('react-native',''\\)\\)\")",
+      "Bash(npm audit *)",
+      "Bash(npm start *)",
+      "Bash(pkill -f \"expo start\")",
+      "Bash(jobs -l)",
+      "Bash(lsof -ti:8081)",
+      "Bash(xargs kill -9)",
+      "Bash(lsof -ti:8082)",
+      "Bash(pkill -9 -f \"expo\")",
+      "Bash(node -e \"console.log\\(require\\('/Users/yuvraj/Desktop/EduEase - AI/mobile-app/node_modules/expo/package.json'\\).version\\)\")",
+      "Bash(expo --version)",
+      "Bash(npx --yes expo@latest --version)",
+      "Bash(curl -sL \"https://github.com/floriankarsten/space-grotesk/raw/master/fonts/ttf/static/SpaceGrotesk-SemiBold.ttf\" -o SpaceGrotesk-SemiBold.ttf)",
+      "Bash(curl -sL \"https://github.com/floriankarsten/space-grotesk/raw/master/fonts/ttf/static/SpaceGrotesk-Bold.ttf\" -o SpaceGrotesk-Bold.ttf)",
+      "Bash(./node_modules/.bin/expo install *)",
+      "Bash(node -e \"console.log\\(require\\('/Users/yuvraj/Desktop/EduEase - AI/mobile-app/node_modules/react-native-reanimated/package.json'\\).version\\)\")",
+      "Bash(node -e \"const p = require\\('/Users/yuvraj/Desktop/EduEase - AI/mobile-app/node_modules/expo-splash-screen/package.json'\\); console.log\\('splash-screen:', p.version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('/Users/yuvraj/Desktop/EduEase - AI/mobile-app/node_modules/expo-router/package.json'\\).version\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"const p = require\\('/Users/yuvraj/Desktop/EduEase - AI/mobile-app/node_modules/expo-router/package.json'\\); console.log\\('main:', p.main, 'exports:', JSON.stringify\\(p.exports?.['.'] ?? 'none'\\).slice\\(0,100\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\('exports keys:', list\\(\\(p.get\\('exports'\\) or {}\\).keys\\(\\)\\)[:10]\\)\")"
+    ]
+  }
+}

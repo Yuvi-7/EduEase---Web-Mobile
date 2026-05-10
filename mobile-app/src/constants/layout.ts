@@ -1,0 +1,40 @@
+export const Layout = {
+  screenPaddingH: 16,
+  headerPaddingH: 20,
+  cardPadding: 16,
+  cardPaddingTight: 14,
+  gap: 12,
+  gapSm: 8,
+  gapXs: 6,
+  sectionGap: 16,
+  cardRadius: 14,
+  rosterRadius: 12,
+  pillRadius: 999,
+  btnRadius: 14,
+  avatarSm: 32,
+  avatarMd: 40,
+  avatarLg: 56,
+  iconBtn: 40,
+  ctaHeight: 50,
+  progressBarHeight: 4,
+  tapBtnSize: 36,
+  tapBtnRadius: 10,
+  notificationPip: 8,
+} as const;
+
+export const Shadows = {
+  card: {
+    shadowColor: "#1A1830",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  cardStrong: {
+    shadowColor: "#1A1830",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+} as const;

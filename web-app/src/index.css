@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+/* ── Design Tokens ─────────────────────────────────────────────────── */
+:root {
+  /* Scholar (brand indigo) */
+  --scholar-50:  #EDEDFC;
+  --scholar-100: #DDDDFB;
+  --scholar-200: #BBBAF7;
+  --scholar-300: #9999F3;
+  --scholar-400: #7777EF;
+  --scholar-500: #6666EB;
+  --scholar-600: #5B5BE5;
+  --scholar-700: #4747D9;
+  --scholar-800: #3636CC;
+  --scholar-900: #2828A8;
+
+  /* Coral */
+  --coral-50:  #FFF1EC;
+  --coral-100: #FFE3D9;
+  --coral-200: #FFC7B3;
+  --coral-300: #FFAB8D;
+  --coral-400: #FF9877;
+  --coral-500: #FF8A6A;
+  --coral-600: #E06A4A;
+  --coral-700: #C24C2F;
+  --coral-800: #A33818;
+
+  /* Mint (success) */
+  --mint-50:  #EAFAF2;
+  --mint-100: #D5F5E5;
+  --mint-200: #ABEBCB;
+  --mint-300: #81E1B1;
+  --mint-400: #57D797;
+  --mint-500: #2DBA73;
+  --mint-600: #219B5D;
+  --mint-700: #177D49;
+  --mint-800: #0E5E35;
+
+  /* Amber (warning) */
+  --amber-50:  #FFF8E6;
+  --amber-100: #FFF1CD;
+  --amber-200: #FFE39B;
+  --amber-300: #FFD569;
+  --amber-400: #FFC837;
+  --amber-500: #F0A52A;
+  --amber-600: #D08A1A;
+  --amber-700: #AF6F0B;
+  --amber-800: #8F5503;
+
+  /* Rose (danger) */
+  --rose-50:  #FDECEE;
+  --rose-100: #FAD9DD;
+  --rose-200: #F5B3BB;
+  --rose-300: #F08D99;
+  --rose-400: #EB6777;
+  --rose-500: #E14B6A;
+  --rose-600: #C43556;
+  --rose-700: #A72042;
+  --rose-800: #8A0B2E;
+
+  /* Ink (text hierarchy) */
+  --ink-1: #1A1726;
+  --ink-2: #6B6880;
+  --ink-3: #9E9CB0;
+
+  /* Surfaces */
+  --surface-page:    #F7F4EE;
+  --surface-sunken:  #EEE9E0;
+  --surface-card:    #FAFAF8;
+  --surface-overlay: rgba(26, 23, 38, 0.48);
+
+  /* Borders */
+  --line:        #E8E3D6;
+  --line-strong: #D4CEBF;
+
+  /* Shadows */
+  --shadow-1: 0 1px 3px rgba(26,23,38,0.06), 0 1px 2px rgba(26,23,38,0.04);
+  --shadow-2: 0 4px 16px rgba(26,23,38,0.12);
+
+  /* Motion */
+  --dur-base: 120ms;
+  --dur-mid:  200ms;
+  --dur-slow: 300ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Typography */
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-1);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Tailwind theme extension ───────────────────────────────────────── */
+@theme {
+  --color-scholar-50:  var(--scholar-50);
+  --color-scholar-100: var(--scholar-100);
+  --color-scholar-200: var(--scholar-200);
+  --color-scholar-300: var(--scholar-300);
+  --color-scholar-400: var(--scholar-400);
+  --color-scholar-500: var(--scholar-500);
+  --color-scholar-600: var(--scholar-600);
+  --color-scholar-700: var(--scholar-700);
+  --color-scholar-800: var(--scholar-800);
+  --color-scholar-900: var(--scholar-900);
+
+  --color-coral-50:  var(--coral-50);
+  --color-coral-500: var(--coral-500);
+  --color-coral-600: var(--coral-600);
+  --color-coral-700: var(--coral-700);
+
+  --color-mint-50:  var(--mint-50);
+  --color-mint-100: var(--mint-100);
+  --color-mint-300: var(--mint-300);
+  --color-mint-500: var(--mint-500);
+  --color-mint-600: var(--mint-600);
+  --color-mint-700: var(--mint-700);
+
+  --color-amber-50:  var(--amber-50);
+  --color-amber-500: var(--amber-500);
+  --color-amber-700: var(--amber-700);
+
+  --color-rose-50:  var(--rose-50);
+  --color-rose-200: var(--rose-200);
+  --color-rose-500: var(--rose-500);
+  --color-rose-700: var(--rose-700);
+
+  --color-ink-1: var(--ink-1);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line:  var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-surface-page:   var(--surface-page);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-card:   var(--surface-card);
+
+  --font-family-body:    var(--font-body);
+  --font-family-display: var(--font-display);
+  --font-family-mono:    var(--font-mono);
+}
+
+/* ── Shimmer animation ──────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--surface-sunken) 25%, var(--line) 50%, var(--surface-sunken) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* ── Drawer / Sheet slide-in ────────────────────────────────────────── */
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slideOut {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+/* ── Scrollbar styling ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+/* ── Number formatting ──────────────────────────────────────────────── */
+.tabnum { font-variant-numeric: tabular-nums; }
