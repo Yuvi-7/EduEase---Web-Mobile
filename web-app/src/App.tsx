@@ -1,27 +1,25 @@
 import { useState } from 'react'
-import { Login } from '@/pages/auth/Login'
 import { useAuthStore } from '@/store/auth'
 import { useNavStore } from '@/store/nav'
-import { SchoolAdminSidebar, SuperAdminSidebar } from '@/components/layout/Sidebar'
-import { TopBar } from '@/components/layout/TopBar'
+import { SchoolAdminSidebar, SuperAdminSidebar } from '@/shared/components/layout/Sidebar'
+import { TopBar } from '@/shared/components/layout/TopBar'
 
-// School admin pages
-import { Dashboard }  from '@/pages/school-admin/Dashboard'
-import { Students }   from '@/pages/school-admin/Students'
-import { Teachers }   from '@/pages/school-admin/Teachers'
-import { Parents }    from '@/pages/school-admin/Parents'
-import { Classes }    from '@/pages/school-admin/Classes'
-import { Attendance } from '@/pages/school-admin/Attendance'
-import { Timetable }  from '@/pages/school-admin/Timetable'
-import { Fees }       from '@/pages/school-admin/Fees'
-import { Messages }   from '@/pages/school-admin/Messages'
-import { Reports }    from '@/pages/school-admin/Reports'
-import { Settings }   from '@/pages/school-admin/Settings'
+import { Login }      from '@/features/auth/pages/Login'
+import { Dashboard }  from '@/features/dashboard/pages/Dashboard'
+import { Students }   from '@/features/students/pages/Students'
+import { Teachers }   from '@/features/teachers/pages/Teachers'
+import { Parents }    from '@/features/parents/pages/Parents'
+import { Classes }    from '@/features/classes/pages/Classes'
+import { Attendance } from '@/features/attendance/pages/Attendance'
+import { Timetable }  from '@/features/timetable/pages/Timetable'
+import { Fees }       from '@/features/fees/pages/Fees'
+import { Messages }   from '@/features/messages/pages/Messages'
+import { Reports }    from '@/features/reports/pages/Reports'
+import { Settings }   from '@/features/settings/pages/Settings'
 
-// Super admin pages
-import { NetworkOverview } from '@/pages/super-admin/NetworkOverview'
+import { NetworkOverview } from '@/features/network/pages/NetworkOverview'
+import { OnboardWizard }   from '@/features/onboarding/pages/OnboardWizard'
 
-// ── Toast ────────────────────────────────────────────────────────────
 function Toast({ msg, onDone }: { msg: string; onDone: () => void }) {
   useState(() => { setTimeout(onDone, 2500) })
   return (
@@ -32,7 +30,6 @@ function Toast({ msg, onDone }: { msg: string; onDone: () => void }) {
   )
 }
 
-// ── School Admin shell ───────────────────────────────────────────────
 function SchoolAdminApp() {
   const logout = useAuthStore(s => s.logout)
   const { schoolPage, setSchoolPage } = useNavStore()
@@ -71,32 +68,38 @@ function SchoolAdminApp() {
   )
 }
 
-// ── Super Admin shell ────────────────────────────────────────────────
 function SuperAdminApp() {
   const logout = useAuthStore(s => s.logout)
   const { superPage, setSuperPage } = useNavStore()
-  const [toast, setToast] = useState<string | null>(null)
+  const [onboarding, setOnboarding] = useState(false)
 
   return (
     <div className="flex h-screen overflow-hidden">
       <SuperAdminSidebar active={superPage} onNav={p => setSuperPage(p as typeof superPage)} />
       <div className="flex flex-col flex-1 overflow-hidden">
-        <TopBar
-          searchPlaceholder="Search across 11,294 students, 681 teachers…"
-          onNew={() => setToast('Add school modal opened')}
-          termLabel="May 2026"
-          onLogout={logout}
-        />
-        <main className="flex-1 overflow-y-auto p-7 bg-[var(--surface-page)]">
-          <NetworkOverview />
-        </main>
+        {!onboarding && (
+          <TopBar
+            searchPlaceholder="Search across 11,294 students, 681 teachers…"
+            onNew={() => setOnboarding(true)}
+            termLabel="May 2026"
+            onLogout={logout}
+          />
+        )}
+        {onboarding ? (
+          <OnboardWizard
+            onClose={() => setOnboarding(false)}
+            onLaunch={() => setOnboarding(false)}
+          />
+        ) : (
+          <main className="flex-1 overflow-y-auto p-7 bg-[var(--surface-page)]">
+            <NetworkOverview />
+          </main>
+        )}
       </div>
-      {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
     </div>
   )
 }
 
-// ── Root ─────────────────────────────────────────────────────────────
 export default function App() {
   const role = useAuthStore(s => s.role)
 
