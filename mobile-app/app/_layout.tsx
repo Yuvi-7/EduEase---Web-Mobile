@@ -1,7 +1,18 @@
 import { useEffect } from "react";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useFonts } from "expo-font";
+import {
+  useFonts,
+  SpaceGrotesk_600SemiBold,
+  SpaceGrotesk_700Bold,
+} from "@expo-google-fonts/space-grotesk";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from "@expo-google-fonts/inter";
+import { JetBrainsMono_400Regular } from "@expo-google-fonts/jetbrains-mono";
 import * as SplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -41,13 +52,13 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
-    "SpaceGrotesk-SemiBold": require("../assets/fonts/SpaceGrotesk-SemiBold.ttf"),
-    "SpaceGrotesk-Bold": require("../assets/fonts/SpaceGrotesk-Bold.ttf"),
-    "Inter-Regular": require("../assets/fonts/Inter-Regular.ttf"),
-    "Inter-Medium": require("../assets/fonts/Inter-Medium.ttf"),
-    "Inter-SemiBold": require("../assets/fonts/Inter-SemiBold.ttf"),
-    "Inter-Bold": require("../assets/fonts/Inter-Bold.ttf"),
-    "JetBrainsMono-Regular": require("../assets/fonts/JetBrainsMono-Regular.ttf"),
+    "SpaceGrotesk-SemiBold": SpaceGrotesk_600SemiBold,
+    "SpaceGrotesk-Bold": SpaceGrotesk_700Bold,
+    "Inter-Regular": Inter_400Regular,
+    "Inter-Medium": Inter_500Medium,
+    "Inter-SemiBold": Inter_600SemiBold,
+    "Inter-Bold": Inter_700Bold,
+    "JetBrainsMono-Regular": JetBrainsMono_400Regular,
   });
 
   useEffect(() => {
