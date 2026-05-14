@@ -1,0 +1,302 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── ENUMS ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  SCHOOL_ADMIN
+  TEACHER
+  STUDENT
+  PARENT
+}
+
+enum SchoolPlan {
+  STARTER
+  GROWTH
+  SCALE
+}
+
+enum StudentStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum TeacherStatus {
+  ACTIVE
+  ON_LEAVE
+}
+
+enum FeeStatus {
+  PAID
+  DUE
+  OVERDUE
+  PARTIAL
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+// ─── SCHOOL ───────────────────────────────────────────────────────────────────
+
+model School {
+  id        String     @id @default(uuid())
+  code      String     @unique
+  name      String
+  city      String
+  plan      SchoolPlan @default(STARTER)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+
+  users     User[]
+  students  Student[]
+  teachers  Teacher[]
+  parents   Parent[]
+  classes   ClassSection[]
+  fees      Fee[]
+  messages  Message[]
+  timetable TimetableEntry[]
+
+  @@index([code])
+  @@map("schools")
+}
+
+// ─── USER ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String    @id @default(uuid())
+  schoolId     String?
+  email        String    @unique
+  passwordHash String
+  role         Role
+  name         String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+
+  school         School?        @relation(fields: [schoolId], references: [id])
+  refreshTokens  RefreshToken[]
+  teacherProfile Teacher?
+  studentProfile Student?
+  parentProfile  Parent?
+
+  @@index([email])
+  @@index([schoolId])
+  @@index([schoolId, role])
+  @@map("users")
+}
+
+// ─── REFRESH TOKEN ────────────────────────────────────────────────────────────
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+// ─── STUDENT ──────────────────────────────────────────────────────────────────
+
+model Student {
+  id        String        @id @default(uuid())
+  schoolId  String
+  userId    String        @unique
+  grade     String
+  status    StudentStatus @default(ACTIVE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
+
+  school     School          @relation(fields: [schoolId], references: [id])
+  user       User            @relation(fields: [userId], references: [id])
+  parents    ParentStudent[]
+  attendance Attendance[]
+  fees       Fee[]
+
+  @@index([schoolId])
+  @@index([schoolId, grade])
+  @@map("students")
+}
+
+// ─── TEACHER ──────────────────────────────────────────────────────────────────
+
+model Teacher {
+  id        String        @id @default(uuid())
+  schoolId  String
+  userId    String        @unique
+  subject   String
+  load      Int           @default(0)
+  status    TeacherStatus @default(ACTIVE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
+
+  school     School           @relation(fields: [schoolId], references: [id])
+  user       User             @relation(fields: [userId], references: [id])
+  classes    ClassSection[]
+  attendance Attendance[]
+  timetable  TimetableEntry[]
+
+  @@index([schoolId])
+  @@map("teachers")
+}
+
+// ─── PARENT ───────────────────────────────────────────────────────────────────
+
+model Parent {
+  id        String    @id @default(uuid())
+  schoolId  String
+  userId    String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  school   School          @relation(fields: [schoolId], references: [id])
+  user     User            @relation(fields: [userId], references: [id])
+  children ParentStudent[]
+
+  @@index([schoolId])
+  @@map("parents")
+}
+
+// ─── PARENT ↔ STUDENT JOIN ────────────────────────────────────────────────────
+
+model ParentStudent {
+  parentId  String
+  studentId String
+
+  parent  Parent  @relation(fields: [parentId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@id([parentId, studentId])
+  @@map("parent_students")
+}
+
+// ─── CLASS SECTION ────────────────────────────────────────────────────────────
+
+model ClassSection {
+  id        String    @id @default(uuid())
+  schoolId  String
+  teacherId String?
+  grade     Int
+  section   String
+  room      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  school     School           @relation(fields: [schoolId], references: [id])
+  teacher    Teacher?         @relation(fields: [teacherId], references: [id])
+  timetable  TimetableEntry[]
+  attendance Attendance[]
+
+  @@unique([schoolId, grade, section])
+  @@index([schoolId])
+  @@index([teacherId])
+  @@map("class_sections")
+}
+
+// ─── ATTENDANCE ───────────────────────────────────────────────────────────────
+
+model Attendance {
+  id        String           @id @default(uuid())
+  schoolId  String
+  classId   String
+  studentId String?
+  teacherId String?
+  date      DateTime         @db.Date
+  status    AttendanceStatus
+  createdAt DateTime         @default(now())
+
+  class   ClassSection @relation(fields: [classId], references: [id])
+  student Student?     @relation(fields: [studentId], references: [id])
+  teacher Teacher?     @relation(fields: [teacherId], references: [id])
+
+  @@unique([classId, studentId, date])
+  @@index([schoolId, date])
+  @@index([studentId])
+  @@index([classId])
+  @@map("attendance")
+}
+
+// ─── FEE / INVOICE ────────────────────────────────────────────────────────────
+
+model Fee {
+  id        String    @id @default(uuid())
+  schoolId  String
+  studentId String
+  amount    Decimal   @db.Decimal(10, 2)
+  dueDate   DateTime  @db.Date
+  paidDate  DateTime? @db.Date
+  status    FeeStatus @default(DUE)
+  label     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  school  School  @relation(fields: [schoolId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+
+  @@index([schoolId])
+  @@index([studentId])
+  @@index([schoolId, status])
+  @@map("fees")
+}
+
+// ─── MESSAGE ──────────────────────────────────────────────────────────────────
+
+model Message {
+  id        String   @id @default(uuid())
+  schoolId  String
+  fromId    String
+  toId      String?
+  body      String
+  unread    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  school School @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
+  @@index([toId, unread])
+  @@map("messages")
+}
+
+// ─── TIMETABLE ────────────────────────────────────────────────────────────────
+
+model TimetableEntry {
+  id        String   @id @default(uuid())
+  schoolId  String
+  classId   String
+  teacherId String
+  day       Int
+  slot      Int
+  subject   String
+  room      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  school  School       @relation(fields: [schoolId], references: [id])
+  class   ClassSection @relation(fields: [classId], references: [id])
+  teacher Teacher      @relation(fields: [teacherId], references: [id])
+
+  @@unique([classId, day, slot])
+  @@index([schoolId])
+  @@index([teacherId])
+  @@map("timetable_entries")
+}

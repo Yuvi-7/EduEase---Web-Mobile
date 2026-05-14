@@ -1,0 +1,53 @@
+{
+  "name": "eduease-backend",
+  "version": "1.0.0",
+  "description": "EduEase backend API — Node.js + Express + PostgreSQL + Prisma",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/server.js",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "ts-node prisma/seed.ts",
+    "db:reset": "prisma migrate reset",
+    "db:studio": "prisma studio",
+    "db:generate": "prisma generate",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write src prisma",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "winston": "^3.15.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "eslint": "^9.14.0",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
+    "prisma": "^5.22.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
